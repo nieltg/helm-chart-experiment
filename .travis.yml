@@ -10,15 +10,18 @@ before_deploy:
   - helm package -d /tmp/dist/packs */.
   - git fetch origin gh-pages:gh-pages
   - git read-tree $(git rev-parse gh-pages)
-  - git checkout-index -af --prefix /tmp/dist/to-be-deployed/
-  - mv -vn /tmp/dist/packs/* /tmp/dist/to-be-deployed
-  - mv /tmp/dist/to-be-deployed/index.yaml /tmp/dist/index-old.yaml
-  - helm repo index --url "https://nieltg.github.io/helm-chart-experiment" --merge /tmp/dist/index-old.yaml /tmp/dist/to-be-deployed
+  - git checkout-index -af --prefix /tmp/dist/deploy/
+  - >
+    for f in "/tmp/dist/deploy/*"; do
+      rm -f "/tmp/dist/packs/$(basename "$f")"
+    end
+  - helm repo index --url "https://nieltg.github.io/helm-chart-experiment" --merge /tmp/dist/deploy/index.yaml /tmp/dist/packs
+  - mv -v /tmp/dist/packs/* /tmp/dist/deploy
 deploy:
   provider: pages
   token: $GITHUB_TOKEN
 
-  local_dir: /tmp/dist/to-be-deployed
+  local_dir: /tmp/dist/deploy
   keep_history: true
   on:
     branch: master
