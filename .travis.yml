@@ -1,0 +1,21 @@
+language: generic
+
+install:
+  - curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
+script:
+  - helm lint */.
+
+before_deploy:
+  - helm package -d /dist/packs */.
+  - git read-tree $(git rev-parse origin/gh-pages)
+  - git checkout-index -af --prefix /dist/to-be-deployed
+  - mv -vn /dist/packs/* /dist/to-be-deployed
+  - helm repo index /dist/to-be-deployed
+deploy:
+  provider: pages
+  github-token: $GITHUB_TOKEN
+
+  local-dir: /dist/to-be-deployed
+  keep-history: false
+  on:
+    branch: master
