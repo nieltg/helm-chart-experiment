@@ -1,0 +1,74 @@
+replicas: 1
+image:
+  name: gatesso/gate
+  tag: 1.1.6
+  pullPolicy: IfNotPresent
+pod:
+  annotations: {}
+service:
+  type: ClusterIP
+  port: 3000
+  annotations : {}
+rbac:
+  create: false
+  serviceAccountName: default
+migration:
+  enabled: false
+  command: ["bundle"]
+  args: ["exec", "rake", "db:migrate"]
+  restartPolicy: Never
+  annotations:
+    "helm.sh/hook": pre-install,pre-upgrade
+    "helm.sh/hook-weight": "-5"
+    "helm.sh/hook-delete-policy": before-hook-creation
+jobs:
+  - name: purge-inactive-user
+    concurrencyPolicy: Forbid
+    schedule: "0 2 * * *"
+    command: ["bundle"]
+    args: ["exec", "rake", "users:purge_inactive"]
+    restartPolicy: OnFailure
+  - name: revoke-expired-membership
+    concurrencyPolicy: Forbid
+    schedule: "0 2 * * *"
+    command: ["bundle"]
+    args: ["exec", "rake", "users:revoke_expired_membership"]
+    restartPolicy: OnFailure
+secret:
+  annotations:
+    "helm.sh/hook": pre-install,pre-upgrade
+    "helm.sh/hook-weight": "-10"
+    "helm.sh/hook-delete-policy": before-hook-creation
+config:
+  rails:
+    environment: "development"
+    serveStaticFiles: "false"
+  gateServerUrl: "http://localhost:3000"
+  signInType: ""
+  gateOauthClientID: "totally_secret_client_id"
+  gateOauthClientSecret: "totally_secret"
+  gateHostedDomain: "gate.domain"
+  gateHostedDomains: "test1.com,test2.com"
+  gateDBHost: "localhost"
+  gateDBPort: "3306"
+  gateDBName: ""
+  gateDBUser: "gate"
+  gateDBPassword: "gate"
+  cacheHost: "localhost"
+  cachePort: "6379"
+  secretKeyBase: ""
+  secretApiKey: ""
+  gateConfigSecret: ""
+  userRoles: "employee,consultant"
+  uidBuffer: "5000"
+  defaultHostPattern: "s*"
+  productList: "pr1,pr2"
+  samlApps: "datadog"
+  gateOrganizationName: ""
+  gateOrganizationStatic: ""
+  gateVpnSslCert: ""
+  gateVpnSslXsigned: ""
+  gateVpnSslPrivateKey: ""
+  newrelicAgentEnabled: "false"
+  newrelicLicenseKey: ""
+  newrelicAppName: "Gate"

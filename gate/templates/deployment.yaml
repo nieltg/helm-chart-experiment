@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "gate.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ template "gate.fullname" . }}
+    charts: {{ .Chart.Name }}-{{ .Chart.Version }}
+spec:
+  replicas: {{ .Values.replicas }}
+  selector:
+    matchLabels:
+      app: {{ template "gate.fullname" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "gate.fullname" . }}
+      annotations:
+        timestamp: "{{ date "20060102150405" .Release.Time }}"
+        {{- if .Values.pod.annotations -}}
+        {{ toYaml .Values.pod.annotations | nindent 8 }}
+        {{- end }}
+    spec:
+      serviceAccountName: {{ template "rbac.serviceAccountName" . }}
+      {{- if .Values.pod.nodeSelector }}
+      nodeSelector:
+        {{- toYaml .Values.pod.nodeSelector | nindent 8 }}
+      {{- end }}
+      containers:
+      - name: gate
+        image: {{ .Values.image.name }}:{{ .Values.image.tag }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        ports:
+        - name: gate
+          containerPort: 3000
+        env:
+        {{- include "gate.env" . | nindent 8 }}
