@@ -1,4 +1,5 @@
 language: generic
+os: linux
 
 install:
   - curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
@@ -13,9 +14,9 @@ before_deploy:
   - helm repo index /tmp/dist/to-be-deployed
 deploy:
   provider: pages
-  github-token: $GITHUB_TOKEN
+  token: $GITHUB_TOKEN
 
-  local-dir: /tmp/dist/to-be-deployed
-  keep-history: false
+  local_dir: /tmp/dist/to-be-deployed
+  keep_history: false
   on:
     branch: master
