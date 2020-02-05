@@ -11,12 +11,8 @@ before_deploy:
   - git fetch origin gh-pages:gh-pages
   - git read-tree $(git rev-parse gh-pages)
   - git checkout-index -af --prefix /tmp/dist/to-be-deployed/
-  - >
-    for f in $(git ls-tree -r -t --full-name --name-only gh-pages) ; do
-      touch -t $(git log --pretty=format:%cI -1 gh-pages -- "$f") "/tmp/dist/to-be-deployed/$f";
-    done
   - mv -vn /tmp/dist/packs/* /tmp/dist/to-be-deployed
-  - helm repo index /tmp/dist/to-be-deployed
+  - helm repo index --merge /tmp/dist/to-be-deployed/index.yaml /tmp/dist/to-be-deployed
 deploy:
   provider: pages
   token: $GITHUB_TOKEN
