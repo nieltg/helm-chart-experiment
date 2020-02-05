@@ -3,10 +3,10 @@ entries:
   gate:
   - apiVersion: v1
     appVersion: 1.1.6
-    created: "2020-02-05T15:03:56.831325436Z"
+    created: "2020-02-05T15:19:16.504472356Z"
     description: Single Sign On platform for centralised authentication across Linux,
       OpenVPN and CAS.
-    digest: b497af42d2a3826c06b1154cce7c3bc77341713f870da3d407698da2c27348f3
+    digest: aca662b60d259c276c001f408860210aa71d25791e6c01e1c225af0f0a9c8aa3
     home: https://github.com/gate-sso/gate
     name: gate
     sources:
@@ -30,9 +30,9 @@ entries:
   td-agent-barito:
   - apiVersion: v1
     appVersion: 0.2.15
-    created: "2020-02-05T15:03:56.836528552Z"
+    created: "2020-02-05T15:19:16.50489355Z"
     description: A Helm chart for Barito agent
-    digest: 9b74bef33248f1cf893767e355b15119e15d2eda4df334002dd9e6355cf67147
+    digest: cb5bd6b8a0e905a89fd764647cc575b70f2064bed8cc748809b90f1c2882ffac
     name: td-agent-barito
     urls:
     - https://nieltg.github.io/helm-chart-experiment/td-agent-barito-0.2.15.tgz
@@ -235,4 +235,4 @@ entries:
     urls:
     - https://nieltg.github.io/helm-chart-experiment/td-agent-barito-0.1.0.tgz
     version: 0.1.0
-generated: "2020-02-05T15:03:56.829703427Z"
+generated: "2020-02-05T15:19:16.503633575Z"
