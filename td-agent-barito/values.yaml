@@ -1,0 +1,37 @@
+image:
+  name: barito/td-agent-barito-kubernetes
+  tag: 0.2.15
+  pullPolicy: Always
+tolerations: []
+nodeSelector: {}
+affinity: {}
+
+rbac:
+  ## If true, create and use RBAC resources
+  create: false
+  ## Ignored if rbac.create is true
+  serviceAccountName: default
+
+resources:
+  limits:
+    cpu: 2
+    memory: 2Gi
+    ephemeralStorage: 6Gi
+  requests:
+    cpu: 500m
+    memory: 1Gi
+    ephemeralStorage: 4Gi
+
+defaultAgentOptions:
+  buffer:
+    flushAtShutdown: false
+    flushThreadCount: 8
+    flushThreadInterval: 1.0
+    flushThreadBurstInterval: 1.0
+    flushMode: interval
+    flushInterval: 1s
+    queuedChunksLimitSize: 1
+    overflowAction: drop_oldest_chunk
+    retryTimeout: 0s
+    retryMaxTimes: 0
+    disableChunkBackup: true
