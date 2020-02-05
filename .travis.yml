@@ -8,8 +8,8 @@ script:
 
 before_deploy:
   - helm package -d /tmp/dist/packs */.
+  - mkdir -p /tmp/dist/deploy
   - >
-    mkdir -p /tmp/dist/deploy
     if git fetch origin gh-pages:gh-pages; then
       git read-tree $(git rev-parse gh-pages)
       git checkout-index -af --prefix /tmp/dist/deploy/
