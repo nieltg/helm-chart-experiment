@@ -12,7 +12,8 @@ before_deploy:
   - git read-tree $(git rev-parse gh-pages)
   - git checkout-index -af --prefix /tmp/dist/to-be-deployed/
   - mv -vn /tmp/dist/packs/* /tmp/dist/to-be-deployed
-  - helm repo index --merge /tmp/dist/to-be-deployed/index.yaml /tmp/dist/to-be-deployed
+  - mv /tmp/dist/to-be-deployed/index.yaml /tmp/dist/index-old.yaml
+  - helm repo index --merge /tmp/dist/index-old.yaml /tmp/dist/to-be-deployed
 deploy:
   provider: pages
   token: $GITHUB_TOKEN
