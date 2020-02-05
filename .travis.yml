@@ -8,6 +8,7 @@ script:
 
 before_deploy:
   - helm package -d /tmp/dist/packs */.
+  - git fetch origin gh-pages
   - git read-tree $(git rev-parse origin/gh-pages)
   - git checkout-index -af --prefix /tmp/dist/to-be-deployed
   - mv -vn /tmp/dist/packs/* /tmp/dist/to-be-deployed
