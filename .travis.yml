@@ -8,13 +8,14 @@ script:
 
 before_deploy:
   - helm package -d /tmp/dist/packs */.
-  - git fetch origin gh-pages:gh-pages
-  - git read-tree $(git rev-parse gh-pages)
-  - git checkout-index -af --prefix /tmp/dist/deploy/
   - >
-    for f in /tmp/dist/packs/*; do
-      [ -f "/tmp/dist/deploy/$(basename "$f")" ] && rm "$f"
-    done
+    if git fetch origin gh-pages:gh-pages; then
+      git read-tree $(git rev-parse gh-pages)
+      git checkout-index -af --prefix /tmp/dist/deploy/
+      for f in /tmp/dist/packs/*; do
+        [ -f "/tmp/dist/deploy/$(basename "$f")" ] && rm "$f"
+      done
+    fi
   - helm repo index --url "https://nieltg.github.io/helm-chart-experiment" --merge /tmp/dist/deploy/index.yaml /tmp/dist/packs
   - mv -v /tmp/dist/packs/* /tmp/dist/deploy
 deploy:
