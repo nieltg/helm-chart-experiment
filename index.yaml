@@ -29,6 +29,15 @@ entries:
     version: 1.1.2
   td-agent-barito:
   - apiVersion: v1
+    appVersion: 0.2.17
+    created: "2020-02-06T06:57:40.703399684Z"
+    description: A Helm chart for Barito agent
+    digest: 5872c5b35f80fe4ef00b80c6d6f44fbf0cbc5c94e04879a01c74330a09ab90d7
+    name: td-agent-barito
+    urls:
+    - https://nieltg.github.io/helm-chart-experiment/td-agent-barito-0.2.17.tgz
+    version: 0.2.17
+  - apiVersion: v1
     appVersion: 0.2.16
     created: "2020-02-06T06:44:16.023047526Z"
     description: A Helm chart for Barito agent
@@ -46,4 +55,4 @@ entries:
     urls:
     - https://nieltg.github.io/helm-chart-experiment/td-agent-barito-0.2.15.tgz
     version: 0.2.15
-generated: "2020-02-06T06:47:33.869642488Z"
+generated: "2020-02-06T06:57:40.702749789Z"
