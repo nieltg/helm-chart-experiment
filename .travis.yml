@@ -19,6 +19,7 @@ before_deploy:
       for f in /tmp/dist/packs/*; do
         echo OK $f
         [ -f "/tmp/dist/deploy/$(basename "$f")" ] && rm "$f"
+        echo OK done $f
       done
     fi
   - helm repo index --url "https://nieltg.github.io/helm-chart-experiment" --merge /tmp/dist/deploy/index.yaml /tmp/dist/packs
