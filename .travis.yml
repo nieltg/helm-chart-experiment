@@ -11,9 +11,13 @@ before_deploy:
   - mkdir -p /tmp/dist/deploy
   - >
     if git fetch origin gh-pages:gh-pages; then
+      echo OK1
       git read-tree $(git rev-parse gh-pages)
+      echo OK2
       git checkout-index -af --prefix /tmp/dist/deploy/
+      echo OK3
       for f in /tmp/dist/packs/*; do
+        echo OK $f
         [ -f "/tmp/dist/deploy/$(basename "$f")" ] && rm "$f"
       done
     fi
